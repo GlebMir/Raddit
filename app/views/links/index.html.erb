@@ -1,0 +1,31 @@
+<% @links.each do |link| %>
+    <div class="link row clearfix">
+      <h2>
+        <span class="titleoflink">
+         <%= link_to link.title, link %>
+        </span>
+         <br>
+        <%= image_tag link.image.url(:thumb) %><br>
+        <small class="author"><span class="username"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Создан:
+          <%= l link.created_at, format: ("%H:%M:%S") %>,</span><span class="username">автор: <%= link.user.name %></span></small>
+        <br>
+        <small class="commentindex">
+          <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+          <%= link_to "#{pluralize(link.comments.count, "Comment")}", link %></small>
+      </h2>
+
+      <div class="btn-group">
+        <a class="btn btn-default btn-sm" href="<%= link.url %>", target="_blank">Посетить по URL</a>
+        <%= link_to like_link_path(link), method: :put, class: "btn btn-default btn-sm" do %>
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            Like
+            <%= link.get_upvotes.size %>
+        <% end %>
+        <%= link_to dislike_link_path(link), method: :put, class: "btn btn-default btn-sm" do %>
+        <span class="glyphicon glyphicon-chevron-down"></span>
+        Dislike
+          <%= link.get_downvotes.size %>
+        <% end %>
+      </div>
+    </div>
+<% end %>

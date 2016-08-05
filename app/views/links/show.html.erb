@@ -1,0 +1,43 @@
+<div class="page-header">
+  <h1><a href="<%= @link.url %>" target="_blank"><%= @link.title %></a></h1>
+    <%= image_tag @link.image.url(:medium) %>
+  <h1><small>Автор: <span class="username"><%= @link.user.name %></span></small></h1>
+</div>
+
+<div class="btn-group">
+  <%= link_to 'Посетить страницу', @link.url, class: "btn btn-primary", target: '_blank' %>
+</div>
+
+<div class="btn-group pull-right">
+  <%= link_to like_link_path(@link), method: :put, class: "btn btn-default btn-sm" do %>
+      <span class="glyphicon glyphicon-chevron-up"></span>
+      Like
+      <%= @link.get_upvotes.size %>
+  <% end %>
+  <%= link_to dislike_link_path(@link), method: :put, class: "btn btn-default btn-sm" do %>
+    <span class="glyphicon glyphicon-chevron-down"></span>
+    Dislike
+      <%= @link.get_downvotes.size %>
+  <% end %>
+</div>
+
+
+<% if @link.user == current_user -%>
+      <%= link_to 'Изменить', edit_link_path(@link), class: "btn btn-success" %>
+      <%= link_to 'Удалить', @link, method: :delete, data: { confirm: 'Вы уверены?' }, class: "btn btn-danger" %>
+<% end %>
+
+<h3 class="comments_title">
+  <%= pluralize(@link.comments.count, 'Comment') %>
+</h3>
+
+<div id="comments">
+  <%= render :partial => @link.comments %>
+</div>
+<%= simple_form_for [@link, Comment.new]  do |f| %>
+    <div class="field">
+      <%= f.text_area :body, class: "form-control" %>
+    </div>
+    <br>
+    <%= f.submit "Добавить", class: "btn btn-primary" %>
+<% end %>

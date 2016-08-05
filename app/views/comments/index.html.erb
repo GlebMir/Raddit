@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Список комментариев</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Link</th>
+      <th>Body</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @comments.each do |comment| %>
+      <tr>
+        <td><%= comment.link_id %></td>
+        <td><%= comment.body %></td>
+        <td><%= comment.user %></td>
+        <td><%= link_to 'Показать', comment %></td>
+        <td><%= link_to 'Изменить', edit_comment_path(comment) %></td>
+        <td><%= link_to 'Удалить', comment, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
